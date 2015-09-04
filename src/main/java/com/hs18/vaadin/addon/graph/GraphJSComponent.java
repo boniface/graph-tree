@@ -3,20 +3,19 @@
  */
 package com.hs18.vaadin.addon.graph;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import com.hs18.vaadin.addon.graph.listener.GraphJsLeftClickListener;
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.shared.communication.ClientRpc;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 import com.vaadin.ui.JavaScriptFunction;
+import elemental.json.JsonArray;
+import elemental.json.JsonException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @JavaScript({"js/jquery.min.js","js/raphael-min.js"	 , "js/graph.js"})
 public class GraphJSComponent extends AbstractJavaScriptComponent {
@@ -29,7 +28,7 @@ public class GraphJSComponent extends AbstractJavaScriptComponent {
 		super();
 		addFunction("onLeftClick", new JavaScriptFunction() {
 			
-			public void call(JSONArray arguments) throws JSONException {
+			public void call(JsonArray arguments) throws JsonException {
 				String nodeId = arguments.getString(0);
 				GraphJsNode node = nodeMap.get(nodeId);
 				if(node != null && leftClickListener != null){
@@ -39,7 +38,7 @@ public class GraphJSComponent extends AbstractJavaScriptComponent {
 		});
 		
 		addFunction("onStateChanged", new JavaScriptFunction() {
-			public void call(JSONArray arguments) throws JSONException {
+			public void call(JsonArray arguments) throws JsonException {
 				getRpcProxy(GraphJsRefreshRpc.class).refresh();				
 			}
 		});
